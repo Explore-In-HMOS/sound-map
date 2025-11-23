@@ -73,9 +73,9 @@ export class AVSessionController {
     });
   }
 
-  private getFirst(): boolean | undefined {
+  private getFirst(): boolean {
     if (!this.mediaController) {
-      return;
+      return false;
     }
     return this.mediaController.getFirst();
   }
@@ -170,11 +170,11 @@ export class AVSessionController {
     this.mediaController.seek(curMs);
   }
 
-  private getDuration(): number | undefined {
+  private getDuration(): number {
     let duration: number | undefined = AppStorage.get('totalMsTime');
     if (!duration) {
       hilog.error(audioDomain, audioPrefix, 'get duration failed');
-      return;
+      return -1;
     }
     return duration;
   }
