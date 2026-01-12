@@ -1,23 +1,21 @@
-import { wantAgent, common } from '@kit.AbilityKit';
-import { backgroundTaskManager } from '@kit.BackgroundTasksKit';
-import { BusinessError } from '@kit.BasicServicesKit';
-import { hilog } from '@kit.PerformanceAnalysisKit';
-import { audioDomain, audioPrefix } from './MediaController';
+import type common from '@ohos.app.ability.common'
+import { wantAgent } from '@kit.AbilityKit'
+import { backgroundTaskManager } from '@kit.BackgroundTasksKit'
+import { BusinessError } from '@kit.BasicServicesKit'
+import { hilog } from '@kit.PerformanceAnalysisKit'
+import { audioDomain, audioPrefix } from './AVSessionController'
 
-const TAG = 'BackgroundUtil';
+const TAG = 'BackgroundUtil'
 
 export class BackgroundUtil {
-  /**
-   * Start background task.
-   *
-   * @param context
-   */
+
   public static startContinuousTask(context?: common.UIAbilityContext): void {
     if (!context) {
-      hilog.error(audioDomain, audioPrefix, TAG + `startContinuousTask failed context undefined`);
-      return;
+      hilog.error(audioDomain, audioPrefix, `${TAG}: context is undefined`)
+      return
     }
-    let wantAgentInfo: wantAgent.WantAgentInfo = {
+
+    const wantAgentInfo = {
       wants: [
         {
           bundleName: context.abilityInfo.bundleName,
@@ -27,38 +25,65 @@ export class BackgroundUtil {
       operationType: wantAgent.OperationType.START_ABILITY,
       requestCode: 0,
       wantAgentFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG]
-    };
+    } as wantAgent.WantAgentInfo
 
-    wantAgent.getWantAgent(wantAgentInfo).then((wantAgentObj: Object) => {
-      try {
-        backgroundTaskManager.startBackgroundRunning(context,
-          backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK, wantAgentObj).then(() => {
-          hilog.info(audioDomain, audioPrefix, TAG + ' this mediaController: startBackgroundRunning succeeded');
-        }).catch((error: BusinessError) => {
-          hilog.error(audioDomain, audioPrefix, TAG + ` this mediaController: startBackgroundRunning failed Cause: code ${error.code}, message: ${error.message}`);
-        });
-      } catch (error) {
-        hilog.error(audioDomain, audioPrefix, TAG +
-          `startBackgroundRunning failed.message ${(error as BusinessError).message}`);
+    wantAgent.getWantAgent(
+      wantAgentInfo,
+      (err: BusinessError | null, agent: object) => {
+        if (err) {
+          hilog.error(
+            audioDomain,
+            audioPrefix,
+            `${TAG}: getWantAgent failed, code=${err.code}, msg=${err.message}`
+          )
+          return
+        }
+
+        backgroundTaskManager
+          .startBackgroundRunning(
+            context,
+            backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK,
+            agent
+          )
+          .then(() => {
+            hilog.info(
+              audioDomain,
+              audioPrefix,
+              `${TAG}: startBackgroundRunning succeeded`
+            )
+          })
+          .catch((error: BusinessError) => {
+            hilog.error(
+              audioDomain,
+              audioPrefix,
+              `${TAG}: startBackgroundRunning failed, code=${error.code}, msg=${error.message}`
+            )
+          })
       }
-    });
+    )
   }
 
-  /**
-   * Stop background task.
-   *
-   * @param context
-   */
-  public static stopContinuousTask(context: common.UIAbilityContext): void {
-    try {
-      backgroundTaskManager.stopBackgroundRunning(context).then(() => {
-        hilog.info(audioDomain, audioPrefix, TAG + 'this audioRenderer: stopBackgroundRunning succeeded');
-      }).catch((error: BusinessError) => {
-        hilog.error(audioDomain, audioPrefix, TAG + `this audioRenderer: stopBackgroundRunning failed Cause: code ${error.code}`);
-      });
-    } catch (error) {
-      hilog.error(audioDomain, audioPrefix, TAG +
-        `stopBackgroundRunning failed. message ${(error as BusinessError).message}`);
+  public static stopContinuousTask(context?: common.UIAbilityContext): void {
+    if (!context) {
+      hilog.error(audioDomain, audioPrefix, `${TAG}: context is undefined`)
+      return
     }
+
+    backgroundTaskManager
+      .stopBackgroundRunning(context)
+      .then(() => {
+        hilog.info(
+          audioDomain,
+          audioPrefix,
+          `${TAG}: stopBackgroundRunning succeeded`
+        )
+      })
+      .catch((error: BusinessError) => {
+        hilog.error(
+          audioDomain,
+          audioPrefix,
+          `${TAG}: stopBackgroundRunning failed, code=${error.code}, msg=${error.message}`
+        )
+      })
   }
 }

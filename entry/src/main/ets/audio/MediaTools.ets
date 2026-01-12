@@ -6,8 +6,8 @@ import { media } from '@kit.MediaKit';
 export class MediaTools {
   static async getPixelMapFromResource(context: common.UIAbilityContext,
     name: resourceManager.Resource): Promise<PixelMap> {
-    let resourceMgr = context.resourceManager;
-    let fileData: Uint8Array = await resourceMgr.getMediaContent(name);
+    const resourceMgr = context.resourceManager;
+    const fileData: Uint8Array = await resourceMgr.getMediaContent(name);
     return await image.createImageSource(fileData.buffer as ArrayBuffer).createPixelMap();
   }
 
@@ -34,7 +34,7 @@ export class MediaTools {
     const avFileDescriptor: media.AVFileDescriptor = {
       fd: resourceFd.fd,
       offset: resourceFd.offset,
-      length: resourceFd.length,
+      length: resourceFd.length
     };
     return avFileDescriptor;
   }

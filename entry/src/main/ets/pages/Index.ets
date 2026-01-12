@@ -8,18 +8,14 @@ import { MapMusicPage } from './MapMusicPage';
 @Component
 struct Index {
   private viewModel: MainViewModel = new MainViewModel();
-  @State musicData: MusicModel[] = [];
-
-  @State message: string = 'soundMap';
-  @State cumulativeDegree: number = 0;
-  @State threshold: number = 10;
+  private musicData: MusicModel[] = [];
 
   aboutToAppear(): void {
     this.musicData = this.viewModel.getMusicList();
     AppStorage.setOrCreate('musicList', this.musicData);
 
     MediaController.getInstance();
-    CustomAudioManager.getInstance()
+    CustomAudioManager.getInstance();
   }
 
   aboutToDisappear(): void {
@@ -29,7 +25,8 @@ struct Index {
   build() {
     Column() {
       MapMusicPage()
-    }.width('100%')
+    }
+    .width('100%')
     .height('100%')
   }
 }

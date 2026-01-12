@@ -117,9 +117,6 @@ export struct MapMusicPage {
         .height('60%')
 
       Column() {
-        Row() {
-
-
           Column() {
             Text(this.musicList.length ? this.musicList[this.selectIndex].title : '—')
               .fontSize(13)
@@ -132,7 +129,6 @@ export struct MapMusicPage {
               .fontColor('#ffff71ab')
           }
           .margin({ left: 8 })
-        }
 
         Row() {
           Image($r('app.media.ic_prev'))

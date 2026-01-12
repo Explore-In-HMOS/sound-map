@@ -1,11 +1,10 @@
-// common/constants/CityMusicLocal.ts
 import { MusicModel } from '../model/MusicModel';
 
 export function getCityMusic(plate: number): MusicModel {
   const m = new MusicModel();
   m.id = plate;
   m.artist = 'Local Artist';
-  m.artwork = $r('app.media.ic_dream_it'); // istersen değiştir
+  m.artwork = $r('app.media.ic_dream_it');
 
   switch (plate) {
     case 34:

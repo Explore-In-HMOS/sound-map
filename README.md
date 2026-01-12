@@ -8,14 +8,12 @@ Sound Map is a wearable map-driven music player built with ArkTS and ArkUI for H
 
 # Preview
 
-<div>
+<p align="left">
   <img src="screenshots/output_izmir.png" width="24%" />
   <img src="screenshots/output_istanbul.png" width="24%" />
   <img src="screenshots/output_ankara.png" width="24%" />
   <img src="screenshots/output_bg.png" width="24%" />
-</div>
-
----
+</p>
 
 # Use Cases
 - Map-Based Playback (TR Plate Code): Tap a city marker (e.g., İstanbul/34, Ankara/6, İzmir/35). The app resolves the plate code and plays the corresponding local MP3; if no mapping exists, it falls back to a default track.
@@ -61,7 +59,7 @@ Sound Map is a wearable map-driven music player built with ArkTS and ArkUI for H
    - `Crown Event methods` – Hardware crown interaction for playback and volume.
 
  ---
-# Project Directory
+# Directory Structure
 
 ```
 |---audio
@@ -98,7 +96,7 @@ Sound Map is a wearable map-driven music player built with ArkTS and ArkUI for H
 
 ---
 
-# Licence
+# LICENSE
 
-SmartWord is distributed under the terms of the MIT License
+SoundMap is distributed under the terms of the MIT License
 See the [LICENSE](./LICENSE) for more information.
